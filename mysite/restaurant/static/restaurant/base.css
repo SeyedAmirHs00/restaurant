@@ -1,0 +1,140 @@
+@font-face {
+    font-family: "IranSans";
+    src: url("fonts/IranianSans.ttf");
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "IranSans";
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+/* html,
+body {
+    height: 100%;
+} */
+
+.navbar {
+    display: flex;
+    background-color: rgb(0, 0, 53);
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px 20px;
+    color: white;
+    position: sticky;
+}
+
+.logo {
+    font-weight: 400;
+    font-size: 32px;
+}
+
+.nav-links {
+    list-style-type: none;
+}
+
+.navmenu {
+    display: flex;
+    font-size: 18px;
+}
+
+.navmenu a {
+    color: white;
+    display: block;
+    padding: 10px 20px;
+}
+
+
+.navmenu a:hover {
+    background-color: rgb(0, 195, 255);
+    color: black;
+    transition: 0.3s ease-in;
+}
+
+.hamburger-checkbox,
+.hamburger {
+    display: none;
+}
+
+.dropdown {
+    position: relative;
+    color: white;
+}
+
+.dropdown p {
+    padding: 10px 20px;
+    user-select: none;
+}
+
+.dropdown p::after {
+    content: "←";
+}
+
+.dropdown:hover {
+    background-color: rgb(0, 195, 255);
+    color: black;
+    transition: 0.3s ease-in;
+}
+
+.dropdown-content {
+    display: none;
+    list-style-type: none;
+    position: absolute;
+    width: 200px;
+    text-align: center;
+    z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+    background-color: rgb(0, 0, 53);
+    display: block;
+    box-shadow: 3px 3px 10px black ;
+}   
+
+main {
+    font-size: 18px;
+    min-height: 100%;
+    padding: 20px 30px;
+}
+
+footer {
+    text-align: center;
+}
+
+@media screen and (max-width: 560px) {
+    .hamburger {
+        font-size: 30px;
+        user-select: none;
+    }
+
+    .navmenu {
+        display: none;
+        position: absolute;
+        background-color: rgb(0, 0, 53);
+        right: 0;
+        left: 0;
+        text-align: center;
+        padding: 16px 20px;
+    }
+
+    .navmenu li+li {
+        margin-top: 5px;
+    }
+
+    .hamburger {
+        display: block;
+    }
+
+    .hamburger-checkbox:checked~.navmenu {
+        display: block;
+    }
+}

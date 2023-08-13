@@ -1,0 +1,65 @@
+@font-face {
+    font-family: "BYekan";
+    src: url("fonts/BYekan.ttf");
+}
+
+.header {
+    font-family: "BYekan";
+    font-size: 30px;
+    margin-bottom: 40px;
+}
+
+.addproduct-form {
+    min-width: 50%;
+    max-width: 80%;
+    margin: 0 auto;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: rgb(216, 252, 255);
+}
+
+.addproduct-form-list {
+    list-style-type: none;
+}
+
+.addproduct-form-list label {
+    display: inline-block;
+    width: 50%;
+}
+
+.addproduct-form-list input,
+.addproduct-form-list select {
+    width: 45%;
+    padding: 10px 10px;
+    border-radius: 10px;
+}
+
+.addproduct-form li + li {
+    margin-top: 1em;
+}
+
+.addproduct-form-button {
+    margin-top: 1em;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.addproduct-form-button button {
+    padding: 10px 20px;
+    background-color: rgb(25, 100, 205);
+    color: white;
+    border: none;
+    border-radius: 10px;
+}
+
+.addproduct-form-button button:hover {
+    background-color: blue;
+}
+
+.error-message {
+    text-align: center;
+    color: red;
+    padding: 10px 20px;
+    margin-bottom: 1em;
+}

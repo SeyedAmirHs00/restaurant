@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'restaurant/base.css' %}">
+    {% block head %}
+    {% endblock head %}
+    <title>
+        {% block title %}
+        my amazing site
+        {% endblock title %}
+    </title>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar">
+
+            <!-- NAVIGATION MENU -->
+            <ul class="nav-links">
+
+                <!-- USING HAMBURGER TOGGLE -->
+                <input type="checkbox" id="checkbox_toggle" class="hamburger-checkbox" />
+                <label for="checkbox_toggle" class="hamburger">&#9776;</label>
+
+                <!-- NAVIGATION MENUS -->
+                <div class="navmenu">
+                    <li><a href="{% url 'restaurant:index' %}">خانه</a></li>
+                    <li class="dropdown">
+                        <p>سفارش‌ها</p>
+                        <ul class="dropdown-content">
+                            <li><a href="">افزودن سفارش</a></li>
+                            <li><a href="">لیست سفارش‌ها</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <p>خریدها</p>
+                        <ul class="dropdown-content">
+                            <li><a href="">افزودن خرید</a></li>
+                            <li><a href="">لیست خریدها</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <p>محصول‌ها</p>
+                        <ul class="dropdown-content">
+                            <li><a href="{% url 'restaurant:add_product'%}">افزودن محصول</a></li>
+                            <li><a href="{% url 'restaurant:product_list' %}">لیست محصول‌ها</a></li>
+                        </ul>
+                    </li>
+                </div>
+            </ul>
+        </nav>
+
+    </header>
+    <main>
+        {% block content %}
+        Content
+        {% endblock content %}
+    </main>
+    <footer>
+        درباره ی ما
+    </footer>
+
+</body>
+
+</html>

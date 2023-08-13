@@ -1,0 +1,42 @@
+{% extends "restaurant/base.html" %}
+
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'restaurant/addproduct.css' %}">
+{% endblock %}
+
+{% block title %}
+افزودن محصول
+{% endblock title %}
+
+{% block content %}
+<h1 class="header">افزودن محصول</h1>
+<form action="" method="POST" class="addproduct-form">
+    {% csrf_token %}
+    <p class="error-message">
+        {{ error_message }}
+    </p>
+    <ul class="addproduct-form-list">
+        <li>
+            <label for="id_type">نوع محصول:</label>
+            <select name="category" id="id_type">
+                <option value="beverage">نوشیدنی</option>
+                <option value="meal">غذا</option>
+                <option value="appetizer">مخلفات</option>
+            </select>
+        </li>
+        <li>
+            <label for="id_name">نام محصول: </label>
+            <input type="text" name="name" placeholder="چلو گوشت" id="id_name">
+        </li>
+        <li>
+            <label for="id_price">قیمت محصول (تومان): </label>
+            <input type="number" name="price" placeholder="200000" required id="id_price">
+        </li>
+    </ul>
+    <div class="addproduct-form-button">
+        <button type="submit">تایید</button>
+    </div>
+</form>
+{% endblock content %}

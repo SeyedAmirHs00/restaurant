@@ -1,0 +1,62 @@
+{% extends "restaurant/base.html" %}
+
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'restaurant/productlist.css' %}">
+<script src="{% static 'restaurant/' %}"></script>
+{% endblock %}
+
+{% block title %}
+لیست محصولات
+{% endblock %}
+
+{% block content %}
+<div class="menu">
+    <div class="category">
+        <h1 class="category-h">غذاها</h1>
+        <ul calss="category-list">
+            {% for meal in meals %}
+            <li>
+                <div class="box">
+                    <img src="" alt="">
+                    <h1>{{meal.name}}</h1>
+                    <p></p>
+                    <p class="price">{{meal.price}}T</p>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="category">
+        <h1 class="category-h">نوشیدنی‌ها</h1>
+        <ul calss="category-list">
+            {% for beverage in beverages %}
+            <li>
+                <div class="box">
+                    <img src="" alt="">
+                    <h1>{{beverage.name}}</h1>
+                    <p></p>
+                    <p class="price">{{beverage.price}}T</p>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="category">
+        <h1 class="category-h">مخلفات</h1>
+        <ul calss="category-list">
+            {% for appetizer in appetizers %}
+            <li>
+                <div class="box">
+                    <img src="" alt="">
+                    <h1>{{appetizer.name}}</h1>
+                    <p></p>
+                    <p class="price">{{appetizer.price}}T</p>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}
