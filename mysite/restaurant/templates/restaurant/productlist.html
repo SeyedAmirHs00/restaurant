@@ -4,7 +4,7 @@
 
 {% block head %}
 <link rel="stylesheet" href="{% static 'restaurant/productlist.css' %}">
-<script src="{% static 'restaurant/' %}"></script>
+<script defer src="{% static 'restaurant/productlist.js' %}"></script>
 {% endblock %}
 
 {% block title %}
@@ -12,16 +12,18 @@
 {% endblock %}
 
 {% block content %}
+<p class="error-message">
+    {{ error_message }}
+</p>
 <div class="menu">
     <div class="category">
         <h1 class="category-h">غذاها</h1>
         <ul calss="category-list">
             {% for meal in meals %}
             <li>
-                <div class="box">
+                <div class="box" id="meal-{{meal.id}}" onclick="showPopup(this.id)">
                     <img src="" alt="">
                     <h1>{{meal.name}}</h1>
-                    <p></p>
                     <p class="price">{{meal.price}}T</p>
                 </div>
             </li>
@@ -33,10 +35,9 @@
         <ul calss="category-list">
             {% for beverage in beverages %}
             <li>
-                <div class="box">
+                <div class="box" id="beverage-{{beverage.id}}" onclick="showPopup(this.id)">
                     <img src="" alt="">
                     <h1>{{beverage.name}}</h1>
-                    <p></p>
                     <p class="price">{{beverage.price}}T</p>
                 </div>
             </li>
@@ -48,15 +49,53 @@
         <ul calss="category-list">
             {% for appetizer in appetizers %}
             <li>
-                <div class="box">
+                <div class="box" id="appetizer-{{appetizer.id}}" onclick="showPopup(this.id)">
                     <img src="" alt="">
                     <h1>{{appetizer.name}}</h1>
-                    <p></p>
                     <p class="price">{{appetizer.price}}T</p>
                 </div>
             </li>
             {% endfor %}
         </ul>
+    </div>
+</div>
+<div class="popup hidden">
+    <div class="popup-window">
+        <header>
+            <h3>ویرایش محصول</h3>
+            <div class="close-popup">✕</div>
+        </header>
+        <main>
+            <form class="popup-from" action="" method="POST">
+                {% csrf_token %}
+                <input type="text" name="id" id="id_id" class="hidden">
+                <ul class="addproduct-form-list">
+                    <li>
+                        <label for="id_type">نوع محصول:</label>
+                        <select name="category" id="id_type">
+                            <option value="meal">غذا</option>
+                            <option value="beverage">نوشیدنی</option>
+                            <option value="appetizer">مخلفات</option>
+                        </select>
+                    </li>
+                    <li>
+                        <label for="id_name">نام محصول: </label>
+                        <input type="text" name="name" placeholder="چلو گوشت" id="id_name">
+                    </li>
+                    <li>
+                        <label for="id_price">قیمت محصول (تومان): </label>
+                        <input type="number" name="price" placeholder="200000" required id="id_price">
+                    </li>
+                    <label for="id_delete">
+                        حذف کردن
+                        <input type="checkbox" name="delete" id="id_delete">
+                    </label>
+                </ul>
+                <div class="addproduct-form-button">
+                    <button type="submit">تایید</button>
+                </div>
+            </form>
+        </main>
     </div>
 </div>
 {% endblock %}

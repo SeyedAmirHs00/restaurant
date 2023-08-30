@@ -1,94 +1,192 @@
 body {
-    background-color: rgb(220, 247, 255);
+  background-color: rgb(220, 247, 255);
+}
+
+.hidden {
+    display: none;
 }
 
 .box {
-    width: 338px;
-    height: 150px;
-    border-radius: 10px;
-    background-color: rgb(2, 179, 255);
-    padding: 25px 19px;
+  width: 338px;
+  height: 150px;
+  border-radius: 10px;
+  background-color: rgb(2, 179, 255);
+  padding: 25px 19px;
+  cursor: pointer;
+  transition: 0.3s ease-in;
 }
 
 .box img {
-    width: 91.5px;
-    height: 100px;
-    border-radius: 10px;
-    background-color: #D9D9D9;
-    float: left;
-    margin-right: 9.5px;
+  width: 91.5px;
+  height: 100px;
+  border-radius: 10px;
+  background-color: #d9d9d9;
+  float: left;
+  margin-right: 9.5px;
 }
 
 .box h1 {
-    font-size: 24px;
-    line-height: 24px;
-    font-weight: 400;
+  font-size: 24px;
+  line-height: 24px;
+  font-weight: 500;
 }
 
 .box p {
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 20px;
+  font-size: 16px;
+  line-height: 20px;
 }
 
 .box .price {
-    font-size: 16px;
-    font-weight: 400;
-    line-height: normal;
-    width: 32px;
-    float: right;
-    margin-top: 5px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: normal;
+  width: 32px;
+  float: right;
+  margin-top: 5px;
 }
 
 .box:hover {
-    color: white;
-    background-color: rgb(20, 20, 153);
-    transition: 0.3s ease-in;
+  color: white;
+  background-color: rgb(20, 20, 153);
 }
 
 .menu {
-    display: flex;
-    justify-content: space-evenly;
+  display: flex;
+  justify-content: space-evenly;
 }
 
-
 .menu .category .category-h {
-    text-align: center;
-    font-size: 24px;
-    font-weight: 400;
-    margin-top: 21.5px;
-    margin-bottom: 18px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 400;
+  margin-top: 21.5px;
+  margin-bottom: 18px;
 }
 
 .menu .category ul {
-    list-style-type: none;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 10px;
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.popup {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.popup.hidden {
+    display: none;
+}
+
+.popup-window {
+  width: 500px;
+  background-color: white;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.popup-window header {
+  display: flex;
+  justify-content: space-between;
+  background-color: rgb(226, 255, 183);
+  padding: 10px;
+}
+
+.close-popup {
+  color: red;
+  cursor: pointer;
+  user-select: none;
+  font-size: 20px;
+}
+
+.popup-window main {
+  padding: 20px;
+}
+
+.addproduct-form {
+  display: block;
+  margin: 0 auto;
+  border: 1px solid black;
+  border-radius: 10px;
+  background-color: rgb(216, 252, 255);
+}
+
+.addproduct-form-list {
+  list-style-type: none;
+}
+
+.addproduct-form-list label {
+  display: inline-block;
+  width: 50%;
+}
+
+.addproduct-form-list input,
+.addproduct-form-list select {
+  width: 45%;
+  padding: 10px 10px;
+  border-radius: 10px;
+}
+
+.addproduct-form li + li {
+  margin-top: 1em;
+}
+
+.addproduct-form-button {
+  margin-top: 1em;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.addproduct-form-button button {
+  padding: 10px 20px;
+  background-color: rgb(25, 100, 205);
+  color: white;
+  border: none;
+  border-radius: 10px;
+}
+
+.addproduct-form-button button:hover {
+  background-color: blue;
+}
+
+.error-message {
+  text-align: center;
+  color: red;
+  margin-top: 1em;
+  padding: 10px 20px;
+  margin-bottom: 1em;
 }
 
 @media screen and (max-width: 1030px) {
-    .menu {
-        flex-direction: column;
-        align-items: center;
-    }
+  .menu {
+    flex-direction: column;
+    align-items: center;
+  }
 
-    .menu .category ul {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 8px;
-    }
+  .menu .category ul {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
 
-    .menu .category .category-h {
-        text-align: right;
-    }
+  .menu .category .category-h {
+    text-align: right;
+  }
 }
 
 @media screen and (max-width: 700px) {
-    .menu .category ul {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
+  .menu .category ul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 }

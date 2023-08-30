@@ -10,7 +10,7 @@
 }
 
 .addproduct-form {
-    min-width: 50%;
+    display: block;
     max-width: 80%;
     margin: 0 auto;
     border: 1px solid black;
