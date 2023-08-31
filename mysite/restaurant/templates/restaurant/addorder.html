@@ -1,0 +1,156 @@
+{% extends "restaurant/base.html" %}
+
+{% load static %}
+
+{% block head %}
+<p class="error-messge">{{ error_messsge }}</p>
+<link rel="stylesheet" href="{% static 'restaurant/addorder.css' %}" />
+<script defer src="{% static 'restaurant/addorder.js' %}"></script>
+{% endblock %}
+
+{% block title %}
+افزودن سفارش
+{% endblock %}
+
+{% block content %}
+<p class="error-message"> {{ error_message }}</p>
+<form action="" method="POST">
+    {% csrf_token %}
+    <div id="person">
+        <button type="button" class="btn" id="select-person-button" onclick="togglePersonsPopup()">انتخاب
+            گیرنده</button>
+        <input id="person-id" name="customer_id" class="hidden">
+        <input id="person-name" readonly value="">
+        <input id="person-address" readonly value="">
+    </div>
+    <div class="product-table-wrapper">
+        <table id="product-table" class="product-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>نام</th>
+                    <th> قیمت (تومان)</th>
+                    <th>تعداد</th>
+                    <th>فی (تومان)</th>
+                </tr>
+            </thead>
+            <tbody id="product-table-body">
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="4">
+                        جمع
+                    </th>
+                    <td id="sum-cell"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <div class="add-row-wrapper">
+        <button type="button" class="btn" id="add-row" onclick="addRow()">افزودن سطر</button>
+        <button type="button" class="btn red-btn" id="delete-row" onclick="deleteRow()">حذف سطر آخر</button>
+    </div>
+
+    <div class="submit-wrapper">
+        <button type="submit" class="btn submit-btn">تایید سفارش</button>
+    </div>
+</form>
+
+
+<div id="persons-popup" class="hidden">
+    <div id="persons-popup-window">
+        <header>
+            <div></div>
+            <h3>افراد</h3>
+            <div id="close-person-popup" onclick="togglePersonsPopup()">✕</div>
+        </header>
+        <main>
+            <table id="persons-table">
+                <thead>
+                    <tr>
+                        <th>نام</th>
+                        <th>نام خانوادگی</th>
+                        <th>آقا/خانم</th>
+                        <th>آدرس</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for person in persons %}
+                    <tr id="person-{{person.id}}" onclick="selectPerson(this.id)">
+                        <td>{{person.first_name}}</td>
+                        <td>{{person.last_name}}</td>
+                        <td>
+                            {% if person.is_male %}
+                            آقا
+                            {% else %}
+                            خانم
+                            {% endif%}
+                        </td>
+                        <td>{{person.address}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="add-person-page-wrapper">
+                <a id="add-person-page" class="btn" href="{% url 'restaurant:add_person' %}">افزودن فرد</a>
+            </div>
+        </main>
+    </div>
+</div>
+
+<div id="products-popup" class="hidden">
+    <div id="products-popup-window">
+        <header>
+            <div></div>
+            <h3>محصولات</h3>
+            <div id="close-person-popup" onclick="toggleProductsPopup()">✕</div>
+        </header>
+        <main>
+            <div class="menu">
+                <div class="category">
+                    <h1 class="category-h">غذاها</h1>
+                    <ul calss="category-list">
+                        {% for meal in meals %}
+                        <li>
+                            <div class="box" id="meal-{{meal.id}}" onclick="selectProduct(this.id)">
+                                <img src="" alt="">
+                                <h1>{{meal.name}}</h1>
+                                <p class="price">{{meal.price}}T</p>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="category">
+                    <h1 class="category-h">نوشیدنی‌ها</h1>
+                    <ul calss="category-list">
+                        {% for beverage in beverages %}
+                        <li>
+                            <div class="box" id="beverage-{{beverage.id}}" onclick="selectProduct(this.id)">
+                                <img src="" alt="">
+                                <h1>{{beverage.name}}</h1>
+                                <p class="price">{{beverage.price}}T</p>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="category">
+                    <h1 class="category-h">مخلفات</h1>
+                    <ul calss="category-list">
+                        {% for appetizer in appetizers %}
+                        <li>
+                            <div class="box" id="appetizer-{{appetizer.id}}" onclick="selectProduct(this.id)">
+                                <img src="" alt="">
+                                <h1>{{appetizer.name}}</h1>
+                                <p class="price">{{appetizer.price}}T</p>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+{% endblock %}

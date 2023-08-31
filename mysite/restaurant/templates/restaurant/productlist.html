@@ -12,6 +12,7 @@
 {% endblock %}
 
 {% block content %}
+<h1 class="" style="text-align: center;">لیست محصولات</h1>
 <p class="error-message">
     {{ error_message }}
 </p>
@@ -21,7 +22,7 @@
         <ul calss="category-list">
             {% for meal in meals %}
             <li>
-                <div class="box" id="meal-{{meal.id}}" onclick="showPopup(this.id)">
+                <div class="box" id="meal-{{meal.id}}" onclick="showEditPopup(this.id)">
                     <img src="" alt="">
                     <h1>{{meal.name}}</h1>
                     <p class="price">{{meal.price}}T</p>
@@ -35,7 +36,7 @@
         <ul calss="category-list">
             {% for beverage in beverages %}
             <li>
-                <div class="box" id="beverage-{{beverage.id}}" onclick="showPopup(this.id)">
+                <div class="box" id="beverage-{{beverage.id}}" onclick="showEditPopup(this.id)">
                     <img src="" alt="">
                     <h1>{{beverage.name}}</h1>
                     <p class="price">{{beverage.price}}T</p>
@@ -49,7 +50,7 @@
         <ul calss="category-list">
             {% for appetizer in appetizers %}
             <li>
-                <div class="box" id="appetizer-{{appetizer.id}}" onclick="showPopup(this.id)">
+                <div class="box" id="appetizer-{{appetizer.id}}" onclick="showEditPopup(this.id)">
                     <img src="" alt="">
                     <h1>{{appetizer.name}}</h1>
                     <p class="price">{{appetizer.price}}T</p>
@@ -59,10 +60,13 @@
         </ul>
     </div>
 </div>
+<div class="addproduct-button-wrapper">
+    <button id="addproduct-button"class="btn" onclick="showNewPopup()">افزودن محصول</button>
+</div>
 <div class="popup hidden">
     <div class="popup-window">
         <header>
-            <h3>ویرایش محصول</h3>
+            <h3> افزودن یا ویرایش محصول </h3>
             <div class="close-popup">✕</div>
         </header>
         <main>
@@ -92,7 +96,7 @@
                     </label>
                 </ul>
                 <div class="addproduct-form-button">
-                    <button type="submit">تایید</button>
+                    <button type="submit" class="btn">تایید</button>
                 </div>
             </form>
         </main>

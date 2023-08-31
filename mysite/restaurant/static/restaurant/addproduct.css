@@ -3,6 +3,12 @@
     src: url("fonts/BYekan.ttf");
 }
 
+.wrapper {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+}
+
 .header {
     font-family: "BYekan";
     font-size: 30px;
@@ -11,7 +17,7 @@
 
 .addproduct-form {
     display: block;
-    max-width: 80%;
+    /* max-width: 700px; */
     margin: 0 auto;
     border: 1px solid black;
     border-radius: 10px;
