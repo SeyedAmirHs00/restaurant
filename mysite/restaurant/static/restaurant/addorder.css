@@ -302,10 +302,13 @@
   gap: 10px;
 }
 
-.submit-wrapper {
-  text-align: center;
+.button-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   margin-top: 2em;
-  
+  gap: 1em;
 }
 
 .submit-btn {
