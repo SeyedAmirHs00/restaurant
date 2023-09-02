@@ -3,7 +3,10 @@ from django.urls import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.utils import timezone
 
-import re;
+import jdatetime
+import datetime
+
+import re
 
 from .models import *
 
@@ -50,7 +53,7 @@ def product_list(request):
             if id == "":
                 product = Product(category=category, name=name, price=price)
                 product.save()
-            else: 
+            else:
                 product = get_object_or_404(Product, id=id)
                 if "delete" in request.POST:
                     product.delete()
@@ -74,6 +77,7 @@ def product_list(request):
     }
     return render(request, "restaurant/productlist.html", context)
 
+
 def add_order(request):
     error_message = ""
     if request.method == "POST":
@@ -81,25 +85,27 @@ def add_order(request):
             number_of_products = 0
             pat1 = re.compile("^product(\d*)-id$")
             for key in request.POST:
-                if request.POST[key] == '':
+                if request.POST[key] == "":
                     raise Exception("nothing should be empty.")
                 if pat1.match(key):
                     number_of_products += 1
             customer_id = request.POST["customer_id"]
             customer = Customer.objects.get(id=customer_id)
-            cur_datetime = timezone.now()
+            cur_datetime = datetime.datetime.now()
+            print(cur_datetime)
             order = Order(customer=customer, date=cur_datetime)
             order.save()
             for i in range(number_of_products):
                 id = request.POST[f"product{i}-id"]
                 product = Product.objects.get(id=id)
                 number = request.POST[f"product{i}-number"]
-                ProductsInOrder.objects.create(order=order, product=product, number=number)
+                ProductsInOrder.objects.create(
+                    order=order, product=product, number=number
+                )
             return redirect(reverse("restaurant:add_order"))
         except Exception as e:
-            print(e)
             error_message = "لطفا مقادیر را درست وارد کنید."
-        
+
     persons = Customer.objects.all()
     appetizers = Product.objects.all().filter(category="appetizer")
     beverages = Product.objects.all().filter(category="beverage")
@@ -109,9 +115,59 @@ def add_order(request):
         "beverages": beverages,
         "meals": meals,
         "persons": persons,
-        "error_message": error_message
+        "error_message": error_message,
     }
     return render(request, "restaurant/addorder.html", context)
 
+
 def add_person(request):
     return redirect(reverse("restaurant:index"))
+
+
+def order_list(request):
+    from_date = datetime.datetime.min + datetime.timedelta(1)
+    print(from_date)
+    to_date = datetime.datetime.now()
+    if request.method == "POST":
+        try:
+            jfrom_date = jdatetime.datetime.strptime(
+                request.POST["from_date"], r"%Y/%m/%d %H:%M:%S"
+            )
+            jto_date = jdatetime.datetime.strptime(
+                request.POST["to_date"], r"%Y/%m/%d %H:%M:%S"
+            )
+            from_date = jfrom_date.togregorian()
+            to_date = jto_date.togregorian()
+        except:
+            pass
+    orders = Order.objects.filter(date__lte=to_date).filter(date__gte=from_date)
+    output_orders = []
+    total_sum = 0
+    for order in orders:
+        products_in_order = ProductsInOrder.objects.filter(order=order)
+        order_sum = 0
+        for product_in_order in products_in_order:
+            order_sum += product_in_order.product.price * product_in_order.number
+        total_sum += order_sum
+        persian_date = jdatetime.datetime.fromgregorian(datetime=order.date).strftime(
+            r"%Y-%m-%d %H:%M:%S"
+        )
+        output_orders.append(
+            [
+                order.id,
+                f"{order.customer.first_name} {order.customer.last_name}",
+                persian_date,
+                order_sum,
+            ]
+        )
+    context = {"output_orders": output_orders, "total_sum": total_sum}
+    return render(request, "restaurant/orderlist.html", context)
+
+
+def show_order(request, order_id):
+    order = Order.objects.get(id=order_id)
+    context = {
+        "order": order,
+    }
+    return render(request, "restaurant/showorder.html", context)
+    

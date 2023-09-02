@@ -1,3 +1,7 @@
+::-webkit-scrollbar {
+    display: none;
+}
+
 #person {
   display: flex;
   gap: 3px;
@@ -69,18 +73,25 @@
 }
 
 #persons-popup-window {
+  position: relative;
   background-color: white;
   border-radius: 5px;
   width: 95%;
-  overflow: hidden;
+  max-height: 95%;
+  overflow: auto;
 }
 
 #persons-popup-window > header {
+  position: sticky;
+  width: 100%;
+  top: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: rgb(226, 255, 183);
   padding: 10px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 }
 #persons-popup-window > header > div {
   color: red;
@@ -201,6 +212,7 @@
   text-align: center;
 }
 
+
 #products-popup {
   position: fixed;
   left: 0;
@@ -217,18 +229,25 @@
 }
 
 #products-popup-window {
+  position: relative;
   background-color: white;
   border-radius: 5px;
   width: 95%;
-  overflow: hidden;
+  max-height: 95%;
+  overflow: auto;
 }
 
 #products-popup-window > header {
+  position: sticky;
+  width: 100%;
+  top: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: rgb(226, 255, 183);
   padding: 10px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 }
 #products-popup-window > header > div {
   color: red;

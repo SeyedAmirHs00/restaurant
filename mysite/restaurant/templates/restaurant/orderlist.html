@@ -1,0 +1,63 @@
+{% extends "restaurant/base.html" %}
+
+{% load static %}
+
+{% block head %}
+<link type="text/css" rel="stylesheet" href="{% static 'restaurant/jalalidatepicker.min.css' %}" />
+<link rel="stylesheet" href="{% static 'restaurant/orderlist.css' %}">
+<script src="{% static 'restaurant/jalalidatepicker.min.js' %}"></script>
+<script defer src="{% static 'restaurant/orderlist.js' %}"></script>
+{% endblock %}
+
+{% block title %}
+لیست سفارش‌ها
+{% endblock %}
+
+{% block content %}
+<div class="form-wrapper">
+    <form method="POST">
+        {% csrf_token %}
+        <div class="input-wrapper">
+            <label for="from-date">
+                از تاریخ:
+                <input type="text" id="from-date" name="from_date" data-jdp>
+                <span id="from-date-span"></span>
+            </label>
+            <label for="to-date">
+                تا تاریخ:
+                <input type="text" id="to-date" name="to_date" data-jdp>
+                <span id="to-date-span"></span>
+
+            </label>
+            <button type="submit" class="btn">تایید</button>
+        </div>
+    </form>
+</div>
+<table id="orders-table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>نام و نام‌خانوادگی مشتری</th>
+            <th>تاریخ و ساعت</th>
+            <th>میزان دریافتی (تومان)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for order_id,customer_name,persian_date,order_sum in output_orders %}
+            <tr>
+                <th>{{forloop.counter}}</th>
+                <td>{{customer_name}}</td>
+                <td>{{persian_date}}</td>
+                <td>{{order_sum}}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr>
+            <th colspan="3">جمع</th>
+            <td>{{total_sum}}</td>
+        </tr>
+        
+    </tfoot>
+</table>
+{% endblock %}
