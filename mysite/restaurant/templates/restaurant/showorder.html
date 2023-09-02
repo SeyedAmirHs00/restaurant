@@ -3,8 +3,10 @@
 {% load static %}
 
 {% block head %}
-<link rel="stylesheet" href="{% static 'restaurant/addorder.css' %}" />
-<script defer src="{% static 'restaurant/addorder.js' %}"></script>
+<link type="text/css" rel="stylesheet" href="{% static 'restaurant/jalalidatepicker.min.css' %}" />
+<script src="{% static 'restaurant/jalalidatepicker.min.js' %}"></script>
+<link rel="stylesheet" href="{% static 'restaurant/showorder.css' %}" />
+<script defer src="{% static 'restaurant/showorder.js' %}"></script>
 {% endblock %}
 
 {% block title %}
@@ -16,11 +18,17 @@
 <form action="" method="POST">
     {% csrf_token %}
     <div id="person">
-        <button type="button" class="btn" id="select-person-button" onclick="togglePersonsPopup()">انتخاب
-            گیرنده</button>
-        <input id="person-id" name="customer_id" class="hidden">
-        <input id="person-name" readonly value="">
-        <input id="person-address" readonly value="">
+        <button type="button" class="btn" id="select-person-button" onclick="togglePersonsPopup()">
+            تغییر گیرنده</button>
+        <input id="person-id" name="customer_id" class="hidden" value="{{customer.id}}">
+        <input id="person-name" readonly value="{{customer_full_name}}">
+        <input id="person-address" readonly value="{{customer.address}}">
+    </div>
+    <div id="date-wrapper">
+        <label for="datepicker">
+            تاریخ: 
+            <input type="text" id="datepicker" name="date" value="{{order_persian_date}}" data-jdp />
+        </label>
     </div>
     <div class="product-table-wrapper">
         <table id="product-table" class="product-table">
@@ -34,6 +42,27 @@
                 </tr>
             </thead>
             <tbody id="product-table-body">
+                {% for product,number,total in output_products %}
+                    <tr id="product{{forloop.counter0}}" onclick="clickOnTrProductTable(this.id)">
+                        <input id="product{{ forloop.counter0 }}-id" name="product{{ forloop.counter0 }}-id" value="{{product.id}}" class="hidden" type="text">
+                        <td style="text-align: center;">
+                            {{ forloop.counter }}
+                        </td>
+                        <td id="product{{ forloop.counter0 }}-name">
+                            {{ product.name }}
+                        </td>
+                        <td id="product{{ forloop.counter0 }}-price">
+                            {{ product.price }}
+                        </td>
+                        <td>
+                            <input id="product{{ forloop.counter0 }}-number" name="product{{ forloop.counter0 }}-number" onchange="handleNumberInputChange(this.id)"
+                                onclick="stopProp(event)" type="number" value="{{number}}">
+                        </td>
+                        <td id="product{{ forloop.counter0 }}-sumup">
+                            {{total}}
+                        </td>
+                    </tr>
+                {% endfor %}
             </tbody>
             <tfoot>
                 <tr>
@@ -51,7 +80,7 @@
     </div>
 
     <div class="button-wrapper">
-        <button type="submit" class="btn submit-btn">تایید سفارش</button>
+        <button type="submit" class="btn submit-btn">تغییر سفارش</button>
         <button type="button" class="btn" onclick="printTable()">چاپ فیش</button>
     </div>
 </form>

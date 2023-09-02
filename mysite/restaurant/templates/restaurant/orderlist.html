@@ -44,7 +44,7 @@
     </thead>
     <tbody>
         {% for order_id,customer_name,persian_date,order_sum in output_orders %}
-            <tr>
+            <tr onclick="goToURL(`{% url 'restaurant:show_order' order_id%}`)">
                 <th>{{forloop.counter}}</th>
                 <td>{{customer_name}}</td>
                 <td>{{persian_date}}</td>

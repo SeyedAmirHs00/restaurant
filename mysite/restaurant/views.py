@@ -92,7 +92,6 @@ def add_order(request):
             customer_id = request.POST["customer_id"]
             customer = Customer.objects.get(id=customer_id)
             cur_datetime = datetime.datetime.now()
-            print(cur_datetime)
             order = Order(customer=customer, date=cur_datetime)
             order.save()
             for i in range(number_of_products):
@@ -140,7 +139,12 @@ def order_list(request):
             to_date = jto_date.togregorian()
         except:
             pass
-    orders = Order.objects.filter(date__lte=to_date).filter(date__gte=from_date)
+    orders = (
+        Order.objects.filter(date__lte=to_date)
+        .filter(date__gte=from_date)
+        .order_by("-date")
+    )
+
     output_orders = []
     total_sum = 0
     for order in orders:
@@ -164,10 +168,63 @@ def order_list(request):
     return render(request, "restaurant/orderlist.html", context)
 
 
-def show_order(request, order_id):
-    order = Order.objects.get(id=order_id)
+def show_order(request, id):
+    error_message = ""
+    order = Order.objects.get(id=id)
+    if request.method == "POST":
+        try:
+            number_of_products = 0
+            pat1 = re.compile("^product(\d*)-id$")
+            for key in request.POST:
+                if request.POST[key] == "":
+                    raise Exception("nothing should be empty.")
+                if pat1.match(key):
+                    number_of_products += 1
+            customer_id = request.POST["customer_id"]
+            customer = Customer.objects.get(id=customer_id)
+
+            order.customer = customer
+            order_datetime = jdatetime.datetime.strptime(
+                request.POST["date"], r"%Y/%m/%d %H:%M:%S"
+            ).togregorian()
+            for product_in_order in ProductsInOrder.objects.filter(order=order):
+                product_in_order.delete()
+            order.date = order_datetime
+            order.save()
+            for i in range(number_of_products):
+                product_id = request.POST[f"product{i}-id"]
+                product = Product.objects.get(id=product_id)
+                number = request.POST[f"product{i}-number"]
+                ProductsInOrder.objects.create(
+                    order=order, product=product, number=number
+                )
+            return redirect(reverse("restaurant:show_order", kwargs={"id": id}))
+        except Exception as e:
+            error_message = "لطفا مقادیر را درست وارد کنید."
+    products_in_order = ProductsInOrder.objects.filter(order=order)
+    ouptput_products = []
+    for product_in_order in products_in_order:
+        product = product_in_order.product
+        number = product_in_order.number
+        ouptput_products.append((product, number, product.price * number))
+
+    customer = order.customer
+    persons = Customer.objects.all()
+    appetizers = Product.objects.all().filter(category="appetizer")
+    beverages = Product.objects.all().filter(category="beverage")
+    meals = Product.objects.all().filter(category="meal")
     context = {
+        "appetizers": appetizers,
+        "beverages": beverages,
+        "meals": meals,
+        "persons": persons,
+        "error_message": error_message,
         "order": order,
+        "customer": customer,
+        "customer_full_name": customer.first_name + " " + customer.last_name,
+        "order_persian_date": jdatetime.datetime.fromgregorian(
+            datetime=order.date
+        ).strftime(f"%Y/%m/%d %H:%M:%S"),
+        "output_products": ouptput_products,
     }
     return render(request, "restaurant/showorder.html", context)
-    
