@@ -14,7 +14,9 @@
 {% endblock %}
 
 {% block content %}
+{% if error_message %}
 <p class="error-message"> {{ error_message }}</p>
+{% endif %}
 <form action="" method="POST">
     {% csrf_token %}
     <div id="person">
@@ -28,6 +30,12 @@
         <label for="datepicker">
             تاریخ: 
             <input type="text" id="datepicker" name="date" value="{{order_persian_date}}" data-jdp />
+        </label>
+    </div>
+    <div id="delete-order-wrapper">
+        <label for="delete-order-checkbox">
+            حذف سفارش 
+            <input type="checkbox" id="delete-order-checkbox" name="delete_order" />
         </label>
     </div>
     <div class="product-table-wrapper">
@@ -121,7 +129,7 @@
                 </tbody>
             </table>
             <div class="add-person-page-wrapper">
-                <a id="add-person-page" class="btn" href="{% url 'restaurant:add_person' %}">افزودن مشتری</a>
+                <a id="add-person-page" class="btn" href="{% url 'restaurant:customer_list' %}">افزودن مشتری</a>
             </div>
         </main>
     </div>

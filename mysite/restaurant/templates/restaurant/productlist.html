@@ -13,9 +13,9 @@
 
 {% block content %}
 <h1 class="" style="text-align: center;">لیست محصولات</h1>
-<p class="error-message">
-    {{ error_message }}
-</p>
+{% if error_message %}
+<p class="error-message"> {{ error_message }}</p>
+{% endif %}
 <div class="menu">
     <div class="category">
         <h1 class="category-h">غذاها</h1>

@@ -12,7 +12,9 @@
 {% endblock %}
 
 {% block content %}
+{% if error_message %}
 <p class="error-message"> {{ error_message }}</p>
+{% endif %}
 <form action="" method="POST">
     {% csrf_token %}
     <div id="person">
@@ -92,7 +94,7 @@
                 </tbody>
             </table>
             <div class="add-person-page-wrapper">
-                <a id="add-person-page" class="btn" href="{% url 'restaurant:add_person' %}">افزودن مشتری</a>
+                <a id="add-person-page" class="btn" href="{% url 'restaurant:customer_list' %}">افزودن مشتری</a>
             </div>
         </main>
     </div>

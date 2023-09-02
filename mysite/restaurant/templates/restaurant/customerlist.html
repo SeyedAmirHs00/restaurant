@@ -1,0 +1,98 @@
+{% extends "restaurant/base.html" %}
+
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'restaurant/customerlist.css' %}">
+<script defer src="{% static 'restaurant/customerlist.js' %}"></script>
+{% endblock %}
+
+{% block title %}
+لیست سفارش‌ها
+{% endblock %}
+
+{% block content %}
+{% if error_message %}
+<p class="error-message">{{error_message}}</p>
+{% endif %}
+<table id="customers-table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>نام</th>
+            <th>نام خانوادگی</th>
+            <th>آقا/خانم</th>
+            <th>آدرس</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for customer in customers %}
+        <tr onclick="clickOnCustomerTr(this.id)" id="customer-{{customer.id}}">
+            <th>{{forloop.counter}}</th>
+            <td>{{customer.first_name}}</td>
+            <td>{{customer.last_name}}</td>
+            <td>
+                {% if customer.is_male is True %}
+                آقا
+                {% elif customer.is_male is False %}
+                خانم
+                {% endif %}
+            </td>
+            <td>
+                {{customer.address}}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div id="add-customer-wrapper">
+    <button id="add-customer" class="btn" onclick="clickOnAddCustomer()">افزودن مشتری</button>
+</div>
+
+<div class="popup hidden">
+    <div class="popup-window">
+        <header>
+            <h3> افزودن یا ویرایش مشتری </h3>
+            <div class="close-popup" onclick="togglePopup()">✕</div>
+        </header>
+        <main>
+            <form class="popup-from" action="" method="POST">
+                {% csrf_token %}
+                <input type="text" name="customer_id" id="customer-id" class="hidden">
+                <ul class="addcustomer-form-list">
+                    <li>
+                        <label for="first-name">نام:</label>
+                        <input type="text" id="first-name" name="first_name" placeholder="احمد" />
+                    </li>
+                    <li>
+                        <label for="last-name">نام خانوادگی: </label>
+                        <input type="text" name="last_name" id="last-name" placeholder="باغستانی">
+                    </li>
+                    <li>
+                        <label for="address">آدرس:</label>
+                        <input type="text" name="address" id="address" placeholder="خیابان آفرینش">
+                    </li>
+                    <li>
+                        <label for="gender">جنسیت:</label>
+                        <select id="gender" name="gender">
+                            <option value="unknown">نامعلوم</option>
+                            <option value="male">آقا</option>
+                            <option value="female">خانم</option>
+                        </select>
+                    </li>
+                    <li>
+
+                        <label for="delete">
+                            حذف کردن <input type="checkbox" name="delete" id="delete">
+                        </label>
+                    </li>
+                </ul>
+                <div class="addcustomer-form-button">
+                    <button type="submit" class="btn">تایید</button>
+                </div>
+            </form>
+        </main>
+    </div>
+</div>
+{% endblock %}

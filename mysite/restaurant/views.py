@@ -119,8 +119,50 @@ def add_order(request):
     return render(request, "restaurant/addorder.html", context)
 
 
-def add_person(request):
-    return redirect(reverse("restaurant:index"))
+def customer_list(request):
+    error_message = ""
+    if request.method == "POST":
+        try:
+            customer_id = request.POST["customer_id"]
+            first_name = request.POST["first_name"]
+            last_name = request.POST["last_name"]
+            gender = request.POST["gender"]
+            is_male = None
+            if gender == "male":
+                is_male = True
+            elif gender == "female":
+                is_male = False
+            address = request.POST["address"]
+            delete = None
+            if "delete" in request.POST:
+                delete = request.POST["delete"]
+            if customer_id == "":
+                customer = Customer(
+                    first_name=first_name,
+                    last_name=last_name,
+                    is_male=is_male,
+                    address=address,
+                )
+                customer.save()
+            else:
+                customer = Customer.objects.get(id=customer_id)
+                print(delete)
+                if delete:
+                    customer.delete()
+                else:
+                    customer.first_name = first_name
+                    customer.last_name = last_name
+                    customer.is_male = is_male
+                    customer.address = address
+                    customer.save()
+            return redirect(reverse("restaurant:customer_list"))
+        except Exception as e:
+            print(e)
+            error_message = "مقادیر را درست وارد کنید."
+
+    customers = Customer.objects.all()
+    context = {"customers": customers, "error_message": error_message}
+    return render(request, "restaurant/customerlist.html", context)
 
 
 def order_list(request):
@@ -172,6 +214,9 @@ def show_order(request, id):
     error_message = ""
     order = Order.objects.get(id=id)
     if request.method == "POST":
+        if "delete_order" in request.POST:
+            order.delete()
+            return redirect(reverse("restaurant:order_list"))
         try:
             number_of_products = 0
             pat1 = re.compile("^product(\d*)-id$")

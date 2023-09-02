@@ -65,6 +65,11 @@
     width: 200px;
 }
 
+#delete-order-wrapper {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
 .hidden {
   display: none;
 }
