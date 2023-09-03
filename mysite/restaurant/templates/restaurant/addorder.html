@@ -82,9 +82,9 @@
                         <td>{{person.first_name}}</td>
                         <td>{{person.last_name}}</td>
                         <td>
-                            {% if person.is_male %}
+                            {% if person.is_male is True %}
                             آقا
-                            {% else %}
+                            {% elif person.is_male is False %}
                             خانم
                             {% endif%}
                         </td>

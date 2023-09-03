@@ -146,7 +146,6 @@ def customer_list(request):
                 customer.save()
             else:
                 customer = Customer.objects.get(id=customer_id)
-                print(delete)
                 if delete:
                     customer.delete()
                 else:
@@ -157,7 +156,6 @@ def customer_list(request):
                     customer.save()
             return redirect(reverse("restaurant:customer_list"))
         except Exception as e:
-            print(e)
             error_message = "مقادیر را درست وارد کنید."
 
     customers = Customer.objects.all()
@@ -167,7 +165,6 @@ def customer_list(request):
 
 def order_list(request):
     from_date = datetime.datetime.min + datetime.timedelta(1)
-    print(from_date)
     to_date = datetime.datetime.now()
     if request.method == "POST":
         try:

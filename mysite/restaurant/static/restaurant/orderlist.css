@@ -1,3 +1,14 @@
+.input-wrapper {
+  display: flex;
+  gap: 1em;
+  align-items: center;
+  justify-content: center;
+}
+
+input {
+  padding: 5px;
+  border-radius: 5px;
+}
 
 .btn {
   font-size: 18px;
@@ -54,9 +65,9 @@
 
 
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 770px) {
     .input-wrapper {
         flex-direction: column;
-        gap: 10px;
+        gap: 1em;
     }
 }

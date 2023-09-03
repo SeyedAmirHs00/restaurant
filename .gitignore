@@ -2,4 +2,4 @@
 
 __pycache__
 
-dp.sqlite3
+db.sqlite3
